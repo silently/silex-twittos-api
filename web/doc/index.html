@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Twittos API Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <style>
+      h2 { margin: 1em 0; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Twittos API Documentation</h1>
+
+          <h2>Introduction</h2>
+
+          <p>The API root (noted below <strong>{api}</strong>) is <strong>twittos.grinos.com/api</strong>, meaning an API endpoint URI looks like <code>http://twittos.grinos.com/api/tweets</code>
+          <p>API endpoints are meant to be called with parameters sent in a JSON body.</p>
+
+          <h2>Users</h2>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">Register</div>
+            <div class="panel-body">
+              <p><code>POST</code> request to <code>{api}/users</code> with a JSON description containing:
+                <ul>
+                  <li><strong>login</strong> (mandatory)</li>
+                  <li><strong>password</strong> (mandatory with at least 6 characters)</li>
+                  <li><strong>email</strong> (mandatory)</li>
+                </ul>
+              </p>
+
+              <p>Responses:
+                <ul>
+                  <li>201 (register ok, side-effect: creates a session and sets a cookie)</li>
+                  <li>409 (if login is already used)</li>
+                  <li>422 (with JSON data explaining error)</li>
+                </ul>
+              </p>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">Get user profile</div>
+            <div class="panel-body">
+              <p><code>GET</code> request to <code>{api}/users/self</code></p>
+
+              <p>Responses:
+                <ul>
+                  <li>200 with JSON profile information, if user is authenticated</li>
+                  <li>401 (not authenticated)</li>
+                </ul>
+              </p>
+            </div>
+          </div>
+
+          <h2>Authentication</h2>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">Login request</div>
+            <div class="panel-body">
+              <p><code>POST</code> request to <code>{api}/sessions</code> with a JSON description containing:
+                <ul>
+                  <li><strong>login</strong> (mandatory)</li>
+                  <li><strong>password</strong> (mandatory)</li>
+                </ul>
+              </p>
+
+              <p>Responses:
+                <ul>
+                  <li>201 (login ok, sets a cookie)</li>
+                  <li>401 (failed)</li>
+                </ul>
+              </p>
+            </div>
+          </div>
+
+
+          <div class="panel panel-default">
+            <div class="panel-heading">Logout request</div>
+            <div class="panel-body">
+              <p><code>DELETE</code> request to <code>{api}/sessions/self</code></p>
+
+              <p>Responses:
+                <ul>
+                  <li>200 (unsets cookie if any)</li>
+                </ul>
+              </p>
+            </div>
+          </div>
+
+          <h2>Tweets</h2>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">List tweets</div>
+            <div class="panel-body">
+              <p><code>GET</code> request to <code>{api}/tweets</code></p>
+
+              <p>Responses:
+                <ul>
+                  <li>200 (list most recent tweets by default)</li>
+                  <li>401 (requires authentication)</li>
+                </ul>
+              </p>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">Create tweet</div>
+            <div class="panel-body">
+              <p><code>POST</code> request to <code>{api}/tweets</code> with a JSON description containing:
+                <ul>
+                  <li><strong>text</strong> (mandatory with a maximum of 140 characters)</li>
+                </ul>
+              </p>
+
+              <p>Responses:
+                <ul>
+                  <li>201 (tweet created)</li>
+                  <li>401 (requires authentication)</li>
+                  <li>422 (bad parameters)</li>
+                </ul>
+              </p>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">Delete tweet</div>
+            <div class="panel-body">
+              <p><code>DELETE</code> request to <code>{api}/tweets/{id}</code> where:
+                <ul>
+                  <li><strong>{id}</strong> is the tweet's id</li>
+                </ul>
+              </p>
+
+              <p>Responses:
+                <ul>
+                  <li>200 (tweet deleted)</li>
+                  <li>401 (requires authentication)</li>
+                  <li>403 (forbidden, for example if authenticated user is not the tweet author)</li>
+                </ul>
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+  </body>
+</html>
