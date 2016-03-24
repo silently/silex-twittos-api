@@ -19,6 +19,15 @@ class Tweet
   /** @Column(type="integer") */
   protected $likes;
 
+  /** @Column(type="integer") */
+  protected $retweets;
+
+  /** @Column(type="boolean") */
+  protected $is_retweet;
+
+  /** @OneToOne(targetEntity="Tweet") */
+  protected $source;
+
   /** @Column(type="datetime") */
   protected $created_at;
 
@@ -26,6 +35,8 @@ class Tweet
     $this->author = $author;
     $this->text = $text;
     $this->likes = 0;
+    $this->retweets = 0;
+    $this->is_retweet = false;
     $this->created_at = new \Datetime();
   }
 
@@ -47,6 +58,10 @@ class Tweet
 
   public function liked() {
     $this->likes = $this->likes + 1;
+  }
+
+  public function retweeted() {
+    $this->retweets = $this->retweets + 1;
   }
 
 }

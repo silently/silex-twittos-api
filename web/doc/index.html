@@ -160,6 +160,27 @@
                   <li>201 (tweet like created)</li>
                   <li>401 (requires authentication)</li>
                   <li>404 (tweet not found)</li>
+                  <li>409 (already liked)</li>
+                </ul>
+              </p>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">Retweet</div>
+            <div class="panel-body">
+              <p><code>POST</code> request to <code>{api}/tweets/retweet/{id}</code> where:
+                <ul>
+                  <li><strong>{id}</strong> is the tweet's id</li>
+                </ul>
+              </p>
+
+              <p>Responses:
+                <ul>
+                  <li>201 (retweet created)</li>
+                  <li>401 (requires authentication)</li>
+                  <li>404 (tweet not found)</li>
+                  <li>409 (already retweeted)</li>
                 </ul>
               </p>
             </div>

@@ -22,8 +22,11 @@ class User
   /** @OneToMany(targetEntity="Tweet", mappedBy="author") */
   protected $tweets;
 
-  /** @ManyToMany(targetEntity="Tweet") @JoinTable(name="users_tweets") */
-  protected $likes ;
+  /** @ManyToMany(targetEntity="Tweet") @JoinTable(name="users_likes") */
+  protected $likes;
+
+  /** @ManyToMany(targetEntity="Tweet") @JoinTable(name="users_retweets") */
+  protected $retweets;
 
   /** @Column(type="datetime") **/
   protected $created_at;
@@ -34,6 +37,7 @@ class User
     $this->email = $email;
     $this->tweets = new \Doctrine\Common\Collections\ArrayCollection();
     $this->likes = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->retweets = new \Doctrine\Common\Collections\ArrayCollection();
     $this->created_at = new \Datetime();
   }
 
@@ -66,6 +70,10 @@ class User
   }
 
   public function getLikes() {
+    return $this->likes;
+  }
+
+  public function getRetweets() {
     return $this->likes;
   }
 

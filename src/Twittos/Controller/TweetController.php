@@ -13,7 +13,7 @@ class TweetController {
     $query = $app['orm.em']
       ->getRepository('Twittos\Entity\Tweet')
       ->createQueryBuilder('t')
-      ->select('t.id, t.text, t.likes, t.created_at')
+      ->select('t.id, t.text, t.likes, t.retweets, t.created_at')
       ->orderBy('t.created_at', 'DESC')
       ->setMaxResults(20)
       ->getQuery();
@@ -47,6 +47,24 @@ class TweetController {
     // Let's like it
     $tweet->liked();
     $user->getLikes()->add($tweet);
+    // persists
+    $app['orm.em']->persist($tweet);
+    $app['orm.em']->persist($user);
+    $app['orm.em']->flush();
+    return new Response(null, 201);
+  }
+
+  public function retweet(Request $request, Application $app) {
+    // Checks that tweets exists
+    $tweet = $app['orm.em']->getRepository('Twittos\Entity\Tweet')->findOneById($request->get('id'));
+    if(null === $tweet) return new Response(404);
+
+    $user = $request->get('currentUser');
+    // Checks user has not already liked the tweet
+    if($user->getRetweets()->contains($tweet)) { return new Response(null, 409); }
+    // Let's like it
+    $tweet->retweeted();
+    $user->getRetweets()->add($tweet);
     // persists
     $app['orm.em']->persist($tweet);
     $app['orm.em']->persist($user);
