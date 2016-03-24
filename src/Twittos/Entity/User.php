@@ -38,10 +38,10 @@ class User
   static public function loadValidatorMetadata(ClassMetadata $metadata) {
     // Login validation
     $metadata->addPropertyConstraint('login', new Assert\NotBlank(array('message' => "can't be blank")));
-    $metadata->addPropertyConstraint('login', new Assert\Length(array('min' => 2, 'minMessage' => "must be at least {{ 2 }} characters long")));
+    $metadata->addPropertyConstraint('login', new Assert\Length(array('min' => 2, 'minMessage' => "must be at least {{ limit }} characters long")));
     // Password validation
     $metadata->addPropertyConstraint('password', new Assert\NotBlank(array('message' => "can't be blank")));
-    $metadata->addPropertyConstraint('password', new Assert\Length(array('min' => 6, 'minMessage' => "must be at least {{ 2 }} characters long")));
+    $metadata->addPropertyConstraint('password', new Assert\Length(array('min' => 6, 'minMessage' => "must be at least {{ limit }} characters long")));
     // Password validation
     $metadata->addPropertyConstraint('email', new Assert\NotBlank(array('message' => "can't be blank")));
     $metadata->addPropertyConstraint('email', new Assert\Email(array('message' => "must be a valid email address")));
