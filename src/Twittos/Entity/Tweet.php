@@ -19,7 +19,7 @@ class Tweet
   /** @Column(type="integer") */
   protected $likes;
 
-  /** @Column(type="date") */
+  /** @Column(type="datetime") */
   protected $created_at;
 
   public function __construct($author, $text) {
@@ -43,6 +43,10 @@ class Tweet
 
   public function getId() {
     return $this->id;
+  }
+
+  public function likedBy() {
+
   }
 
 }

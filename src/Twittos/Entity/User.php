@@ -22,7 +22,7 @@ class User
   /** @OneToMany(targetEntity="Tweet", mappedBy="author") */
   protected $tweets;
 
-  /** @Column(type="date") **/
+  /** @Column(type="datetime") **/
   protected $created_at;
 
   public function __construct($login, $password, $email) {

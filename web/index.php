@@ -31,7 +31,7 @@ $authentifiedAPI->before(function (Request $request, Application $app) {
   if(null === $currentUser) return new Response(null, 401);
   $request->attributes->set('currentUser', $currentUser);
 });
-// $authentifiedAPI->get('/api/tweets', 'Twittos\\Controller\\TweetController::index');
+$authentifiedAPI->get('/api/tweets', 'Twittos\\Controller\\TweetController::index');
 $authentifiedAPI->delete('/api/sessions', 'Twittos\\Controller\\SessionController::destroy');
 $authentifiedAPI->get('/api/users/self', 'Twittos\\Controller\\UserController::info');
 $authentifiedAPI->post('/api/tweets', 'Twittos\\Controller\\TweetController::create');

@@ -9,6 +9,18 @@ use Twittos\Controller\Utils;
 
 class TweetController {
 
+  public function index(Request $request, Application $app) {
+    $query = $app['orm.em']
+      ->getRepository('Twittos\Entity\Tweet')
+      ->createQueryBuilder('t')
+      ->select('t.id, t.text, t.likes, t.created_at')
+      ->orderBy('t.created_at', 'DESC')
+      ->setMaxResults(20)
+      ->getQuery();
+    $tweets = $query->getArrayResult();
+    return $app->json($tweets, 200);
+  }
+
   public function create(Request $request, Application $app) {
     // Init tweet object
     $tweet = new Tweet(
