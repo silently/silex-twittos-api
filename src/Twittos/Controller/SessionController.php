@@ -21,4 +21,9 @@ class SessionController {
         return new Response(null, 401);
     }
   }
+
+  public function destroy(Request $request, Application $app) {
+    $app['session']->clear();
+    return new Response(null, 200);
+  }
 }
