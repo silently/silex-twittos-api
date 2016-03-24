@@ -22,9 +22,10 @@ class Tweet
   /** @Column(type="date") */
   protected $created_at;
 
-  public function __construct($authorId, $text) {
-    $this->login = $login;
-    $this->password = $password;
+  public function __construct($author, $text) {
+    $this->author = $author;
+    $this->text = $text;
+    $this->likes = 0;
     $this->created_at = new \Datetime();
   }
 

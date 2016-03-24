@@ -3,13 +3,14 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Silex\Application;
 
 // Configures $app
-$app = new Silex\Application();
+$app = new Application();
 $app['debug'] = true;
 require_once __DIR__.'/../config/bootstrap.php';
 
-// Parse JSON body according to Content-Type
+// Parses JSON body according to Content-Type
 $app->before(function (Request $request) {
   if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
     $data = json_decode($request->getContent(), true);
@@ -17,30 +18,27 @@ $app->before(function (Request $request) {
   }
 });
 
-// TEST
-$app->get('/blog/{id}', function ($id) use ($app) {
-    $sql = "SELECT * FROM tweets WHERE id = ?";
-    $post = $app['db']->fetchAssoc($sql, array((int) $id));
-
-    return  "<h1>text</h1>";
-})
-->assert('id', '\d+');
-
-// Serves API
+// Public API
 $app->post('/api/sessions', 'Twittos\\Controller\\SessionController::create');
-$app->delete('/api/sessions', 'Twittos\\Controller\\SessionController::destroy');
-$app->get('/api/users/self', 'Twittos\\Controller\\UserController::info');
 $app->post('/api/users', 'Twittos\\Controller\\UserController::create');
-// $app->get('/api/tweets', 'Twittos\\Controller\\TweetController::index');
-// $app->post('/api/tweets', 'Twittos\\Controller\\TweetController::create');
-// $app->delete('/api/tweets/{id}', 'Twittos\\Controller\\TweetController::destroy');
-// $app->post('/api/tweets/retweet/{id}', 'Twittos\\Controller\\TweetController::retweet');
-// $app->post('/api/tweets/like/{id}', 'Twittos\\Controller\\TweetController::like');
+$app->get('/', function () use ($app) { return $app->sendFile(__DIR__.'/doc/index.html'); });//doc
 
-// Serves documentation
-$app->get('/', function () use ($app) {
-  return $app->sendFile(__DIR__.'/doc/index.html');
+// API that requires a user
+$authentifiedAPI = $app['controllers_factory'];
+$authentifiedAPI->before(function (Request $request, Application $app) {
+  if (null === $userId = $app['session']->get('userId')) return new Response(null, 401);
+  $currentUser = $app['orm.em']->getRepository('Twittos\Entity\User')->findOneById($userId);
+  if(null === $currentUser) return new Response(null, 401);
+  $request->attributes->set('currentUser', $currentUser);
 });
+// $authentifiedAPI->get('/api/tweets', 'Twittos\\Controller\\TweetController::index');
+$authentifiedAPI->delete('/api/sessions', 'Twittos\\Controller\\SessionController::destroy');
+$authentifiedAPI->get('/api/users/self', 'Twittos\\Controller\\UserController::info');
+$authentifiedAPI->post('/api/tweets', 'Twittos\\Controller\\TweetController::create');
+// $authentifiedAPI->delete('/api/tweets/{id}', 'Twittos\\Controller\\TweetController::destroy');
+// $authentifiedAPI->post('/api/tweets/retweet/{id}', 'Twittos\\Controller\\TweetController::retweet');
+// $authentifiedAPI->post('/api/tweets/like/{id}', 'Twittos\\Controller\\TweetController::like');
+$app->mount('/', $authentifiedAPI);
 
-// Run app
+// Runs app
 $app->run();
