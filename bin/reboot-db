@@ -1,0 +1,2 @@
+php bin/console.php orm:schema-tool:drop --force
+php bin/console.php orm:schema-tool:create

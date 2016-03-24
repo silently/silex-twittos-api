@@ -13,7 +13,7 @@ class Tweet
   /** @Column(type="string", length=140) */
   protected $text;
 
-  /** @ManyToOne(targetEntity="User", inversedBy="tweets") */
+  /** @ManyToOne(targetEntity="User", inversedBy="tweets") @JoinColumn(name="author_id", referencedColumnName="id") */
   protected $author;
 
   /** @Column(type="integer") */

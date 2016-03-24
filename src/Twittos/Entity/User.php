@@ -28,7 +28,7 @@ class User
   /** @ManyToMany(targetEntity="Tweet") @JoinTable(name="users_retweets") */
   protected $retweets;
 
-  /** @Column(type="time") **/
+  /** @Column(type="datetime") **/
   protected $created_at;
 
   public function __construct($login, $password, $email) {

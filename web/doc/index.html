@@ -18,7 +18,7 @@
           <h2>Introduction</h2>
 
           <p>The API root (noted below <strong>{api}</strong>) is <strong>twittos.grinos.com/api</strong>, meaning an API endpoint URI looks like <code>http://twittos.grinos.com/api/tweets</code>
-          <p>API endpoints are meant to be called with parameters sent in a JSON body.</p>
+          <p>API endpoints are meant to be called with parameters sent in a JSON body, and they respond with JSON descriptions too.</p>
 
           <h2>Users</h2>
 
@@ -50,7 +50,12 @@
 
               <p>Responses:
                 <ul>
-                  <li>200 with JSON profile information, if user is authenticated</li>
+                  <li>200 with the following fields:
+                    <ul>
+                      <li><strong>login</strong></li>
+                      <li><strong>email</strong></li>
+                    </ul>
+                  </li>
                   <li>401 (not authenticated)</li>
                 </ul>
               </p>
@@ -98,6 +103,35 @@
             <div class="panel-heading">List tweets</div>
             <div class="panel-body">
               <p><code>GET</code> request to <code>{api}/tweets</code></p>
+
+              <p>Responses:
+                <ul>
+                  <li>200, array of the most recent tweets with the following fields for each tweet:
+                    <ul>
+                      <li><strong>id</strong></li>
+                      <li><strong>URI</strong> (to get more information)</li>
+                      <li><strong>text</strong></li>
+                      <li><strong>author_id</strong></li>
+                      <li><strong>author_URI</strong></li>
+                      <li><strong>likes</strong> (number)</li>
+                      <li><strong>retweets</strong> (number)</li>
+                      <li><strong>created_at</strong></li>
+                    </ul>
+                  </li>
+                  <li>401 (requires authentication)</li>
+                </ul>
+              </p>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">Get more info on a give tweet</div>
+            <div class="panel-body">
+              <p><code>GET</code> request to <code>{api}/tweets/{id}</code> where:
+                <ul>
+                  <li><strong>{id}</strong> is the tweet's id</li>
+                </ul>
+              </p>
 
               <p>Responses:
                 <ul>

@@ -13,11 +13,17 @@ class TweetController {
     $query = $app['orm.em']
       ->getRepository('Twittos\Entity\Tweet')
       ->createQueryBuilder('t')
-      ->select('t.id, t.text, t.likes, t.retweets, t.created_at')
+      ->select('t.id, t.text, author.login AS author_login, t.likes, t.retweets, t.created_at')
+      ->innerJoin('t.author',  'author')
       ->orderBy('t.created_at', 'DESC')
-      ->setMaxResults(20)
+      ->setMaxResults(2)
       ->getQuery();
-    $tweets = $query->getArrayResult();
+
+    $tweets = array_map(function($t) {
+      $t['author_URI'] = '/api/users/'.$t['author_login'];
+      $t['created_at'] = $t['created_at']->format('Y-m-d H:i:s');
+      return $t;
+    }, $query->getArrayResult());
     return $app->json($tweets, 200);
   }
 
