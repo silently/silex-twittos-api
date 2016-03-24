@@ -146,6 +146,25 @@
             </div>
           </div>
 
+          <div class="panel panel-default">
+            <div class="panel-heading">Like tweet</div>
+            <div class="panel-body">
+              <p><code>POST</code> request to <code>{api}/tweets/like/{id}</code> where:
+                <ul>
+                  <li><strong>{id}</strong> is the tweet's id</li>
+                </ul>
+              </p>
+
+              <p>Responses:
+                <ul>
+                  <li>201 (tweet like created)</li>
+                  <li>401 (requires authentication)</li>
+                  <li>404 (tweet not found)</li>
+                </ul>
+              </p>
+            </div>
+          </div>
+
         </div>
       </div>
   </body>

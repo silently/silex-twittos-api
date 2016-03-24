@@ -45,8 +45,8 @@ class Tweet
     return $this->id;
   }
 
-  public function likedBy() {
-
+  public function liked() {
+    $this->likes = $this->likes + 1;
   }
 
 }

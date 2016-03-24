@@ -36,8 +36,14 @@ class TweetController {
     return new Response(null, 201);
   }
 
-  public function destroy(Request $request, Application $app) {
-    $app['session']->clear();
-    return new Response(null, 200);
+  public function like(Request $request, Application $app) {
+    $tweet = $app['orm.em']->getRepository('Twittos\Entity\Tweet')->findOneById($request->get('id'));
+    if(null === $tweet) return new Response(404);
+    $tweet->liked();
+    // persists
+    $app['orm.em']->persist($tweet);
+    $app['orm.em']->flush();
+    // Tweet created of duplicate conflict
+    return new Response(null, 201);
   }
 }
