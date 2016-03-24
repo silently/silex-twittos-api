@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /** @Entity @Table(name="users") @HasLifecycleCallbacks **/
 class User
 {
-  /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
+  /** @Id @Column(type="guid") @GeneratedValue(strategy="UUID") **/
   protected $id;
 
   /** @Column(type="string", length=255, unique=true) **/
@@ -28,7 +28,7 @@ class User
   /** @ManyToMany(targetEntity="Tweet") @JoinTable(name="users_retweets") */
   protected $retweets;
 
-  /** @Column(type="datetime") **/
+  /** @Column(type="time") **/
   protected $created_at;
 
   public function __construct($login, $password, $email) {
