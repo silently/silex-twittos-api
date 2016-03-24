@@ -22,6 +22,9 @@ class User
   /** @OneToMany(targetEntity="Tweet", mappedBy="author") */
   protected $tweets;
 
+  /** @ManyToMany(targetEntity="Tweet") @JoinTable(name="users_tweets") */
+  protected $likes ;
+
   /** @Column(type="datetime") **/
   protected $created_at;
 
@@ -29,6 +32,8 @@ class User
     $this->login = $login;
     $this->password = $password;
     $this->email = $email;
+    $this->tweets = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->likes = new \Doctrine\Common\Collections\ArrayCollection();
     $this->created_at = new \Datetime();
   }
 
@@ -58,6 +63,10 @@ class User
 
   public function getInfo() {
     return [ 'login' => $this->login, 'email' => $this->email ];
+  }
+
+  public function getLikes() {
+    return $this->likes;
   }
 
   public function authenticate($tentativePassword) {

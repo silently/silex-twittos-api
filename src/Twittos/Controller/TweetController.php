@@ -37,13 +37,20 @@ class TweetController {
   }
 
   public function like(Request $request, Application $app) {
+    // Checks that tweets exists
     $tweet = $app['orm.em']->getRepository('Twittos\Entity\Tweet')->findOneById($request->get('id'));
     if(null === $tweet) return new Response(404);
+
+    $user = $request->get('currentUser');
+    // Checks user has not already liked the tweet
+    if($user->getLikes()->contains($tweet)) { return new Response(null, 409); }
+    // Let's like it
     $tweet->liked();
+    $user->getLikes()->add($tweet);
     // persists
     $app['orm.em']->persist($tweet);
+    $app['orm.em']->persist($user);
     $app['orm.em']->flush();
-    // Tweet created of duplicate conflict
     return new Response(null, 201);
   }
 }
