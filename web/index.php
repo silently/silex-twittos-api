@@ -30,8 +30,12 @@ $app->get('/blog/{id}', function ($id) use ($app) {
 $app->post('/api/sessions', 'Twittos\\Controller\\SessionController::create');
 //$app->delete('/api/sessions', 'Twittos\\Controller\\SessionController::delete');
 $app->get('/api/users/self', 'Twittos\\Controller\\UserController::info');
-//$app->put('/api/users/self', 'Twittos\\Controller\\UserController::update');
 $app->post('/api/users', 'Twittos\\Controller\\UserController::create');
+// $app->get('/api/tweets', 'Twittos\\Controller\\TweetController::index');
+// $app->post('/api/tweets', 'Twittos\\Controller\\TweetController::create');
+// $app->delete('/api/tweets/{id}', 'Twittos\\Controller\\TweetController::delete');
+// $app->post('/api/tweets/retweet/{id}', 'Twittos\\Controller\\TweetController::retweet');
+// $app->post('/api/tweets/like/{id}', 'Twittos\\Controller\\TweetController::like');
 
 // Serves documentation
 $app->get('/', function () use ($app) {

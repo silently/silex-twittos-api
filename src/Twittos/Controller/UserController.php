@@ -11,15 +11,14 @@ use Twittos\Controller\Utils;
 class UserController {
 
   public function info(Request $request, Application $app) {
-    error_log(print_r($app['session']->all(), 1));
     if (null === $userId = $app['session']->get('userId')) {
       return new Response(null, 401);
     }
     // Retrieves user info in DB
     $repo = $app['orm.em']->getRepository('Twittos\Entity\User');
-    $info = $repo->findOneById($userId)->getInfo();
+    $user = $repo->findOneById($userId);
 
-    return $app->json($info, 200);
+    return $user ? $app->json($user->getInfo(), 200) : new Response(null, 401);
   }
 
   public function create(Request $request, Application $app) {
