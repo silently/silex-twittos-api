@@ -19,6 +19,9 @@ class User
   /** @Column(type="string", length=255) **/
   protected $email;
 
+  /** @OneToMany(targetEntity="Tweet", mappedBy="author") */
+  protected $tweets;
+
   /** @Column(type="date") **/
   protected $created_at;
 
