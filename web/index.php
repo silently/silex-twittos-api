@@ -36,7 +36,7 @@ $authentifiedAPI->delete('/api/sessions', 'Twittos\\Controller\\SessionControlle
 $authentifiedAPI->get('/api/users/self', 'Twittos\\Controller\\UserController::info');
 $authentifiedAPI->post('/api/tweets', 'Twittos\\Controller\\TweetController::create');
 $authentifiedAPI->post('/api/tweets/like/{id}', 'Twittos\\Controller\\TweetController::like');
-// $authentifiedAPI->delete('/api/tweets/{id}', 'Twittos\\Controller\\TweetController::destroy');
+$authentifiedAPI->delete('/api/tweets/{id}', 'Twittos\\Controller\\TweetController::destroy');
 // $authentifiedAPI->post('/api/tweets/retweet/{id}', 'Twittos\\Controller\\TweetController::retweet');
 $app->mount('/', $authentifiedAPI);
 

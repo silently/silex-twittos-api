@@ -53,4 +53,16 @@ class TweetController {
     $app['orm.em']->flush();
     return new Response(null, 201);
   }
+
+  public function destroy(Request $request, Application $app) {
+    // Checks that tweets exists
+    $tweet = $app['orm.em']->getRepository('Twittos\Entity\Tweet')->findOneBy(array(
+      'id' => $request->get('id'),
+      'author' => $request->get('currentUser')
+    ));
+    if(null === $tweet) return new Response(null, 401);
+    $app['orm.em']->remove($tweet);
+    $app['orm.em']->flush();
+    return new Response(null, 201);
+  }
 }
