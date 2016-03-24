@@ -28,6 +28,8 @@ class UserController {
     try {
       $app['orm.em']->persist($user);
       $app['orm.em']->flush();
+      // Creates session
+      $app['session']->set('userId', $user->getId());
       // Success
       return new Response(null, 201);
     }
