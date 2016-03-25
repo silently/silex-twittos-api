@@ -23,7 +23,7 @@ class Tweet
   protected $retweets;
 
   /** @Column(type="boolean") */
-  protected $is_retweet;
+  protected $isRetweet;
 
   /** @OneToOne(targetEntity="Tweet") */
   protected $source;
@@ -36,7 +36,7 @@ class Tweet
     $this->text = $text;
     $this->likes = 0;
     $this->retweets = 0;
-    $this->is_retweet = false;
+    $this->isRetweet = false;
     $this->createdAt = new \Datetime();
   }
 

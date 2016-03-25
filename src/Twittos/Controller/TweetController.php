@@ -14,9 +14,10 @@ class TweetController {
       ->getRepository('Twittos\Entity\Tweet')
       ->createQueryBuilder('t')
       ->select('t.id, t.text, author.login AS authorLogin, t.likes, t.retweets, t.createdAt')
+      ->where('t.isRetweet = false')
       ->innerJoin('t.author',  'author')
       ->orderBy('t.createdAt', 'DESC')
-      ->setMaxResults(2)
+      ->setMaxResults(20)
       ->getQuery();
 
     $apiRoot = $app['settings']['api']['root'];
