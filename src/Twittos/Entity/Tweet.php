@@ -66,6 +66,10 @@ class Tweet {
     return $this->id;
   }
 
+  public function isRetweet() {
+    return $this->isRetweet;
+  }
+
   public function getInfoOnCreate() {
     return [ 'id' => $this->id ];
   }
@@ -101,6 +105,10 @@ class Tweet {
 
   public function getAuthor() {
     return $this->author;
+  }
+
+  public function getOriginal() {
+    return $this->original;
   }
 
   public function getText() {

@@ -50,6 +50,7 @@ class TweetController {
       ->select('t.id, t.text, author.login AS authorLogin, t.likes, t.retweets, t.createdAt, t.isRetweet')
       ->where('t.author = ?1')
       ->innerJoin('t.author',  'author')
+      ->innerJoin('t.original',  'original')
       ->orderBy('t.createdAt', 'DESC')
       ->setParameter(1, $author->getId())
       ->setFirstResult($firstResult)
@@ -62,6 +63,9 @@ class TweetController {
       $t['URI'] = $apiRoot.'/tweets/'.$t['id'];
       $t['authorURI'] = $apiRoot.'/users/'.$t['authorLogin'];
       $t['createdAt'] = $t['createdAt']->format('Y-m-d H:i:s');
+      if($t['isRetweet']) {
+        $t['original'] = "coucou";
+      }
       return $t;
     }, $query->getArrayResult());
 
@@ -95,6 +99,11 @@ class TweetController {
     // Checks that tweets exists
     $tweet = $app['orm.em']->getRepository('Twittos\Entity\Tweet')->findOneById($request->get('id'));
     if(null === $tweet) return new Response(404);
+    // Like the original
+    if($tweet->isRetweet()) {
+      $tweet = $tweet->getOriginal();
+      if(null === $tweet) return new Response(404);
+    }
 
     $user = $request->get('currentUser');
     // Checks user has not already liked the tweet
@@ -113,6 +122,11 @@ class TweetController {
     // Checks that tweets exists
     $tweet = $app['orm.em']->getRepository('Twittos\Entity\Tweet')->findOneById($request->get('id'));
     if(null === $tweet) return new Response(404);
+    // Retweet the original
+    if($tweet->isRetweet()) {
+      $tweet = $tweet->getOriginal();
+      if(null === $tweet) return new Response(404);
+    }
 
     $user = $request->get('currentUser');
     // Checks user is not the author

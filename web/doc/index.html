@@ -119,6 +119,7 @@
           <div class="panel panel-default">
             <div class="panel-heading">List tweets</div>
             <div class="panel-body">
+              <p>This resource lists original tweets (and not duplicate retweets).</p>
               <p><span class="label label-default">Request</span></p>
               <p><code>GET</code> to <code>{api}/tweets</code> where:
                 <ul>
@@ -145,7 +146,6 @@
                   <li>401 (requires authentication)</li>
                 </ul>
               </p>
-              <p>Note that retweets won't be listed here.</p>
             </div>
           </div>
 
@@ -280,6 +280,7 @@
           <div class="panel panel-default">
             <div class="panel-heading">Like tweet</div>
             <div class="panel-body">
+              <p>If this tweet is a retweet, the original one will be liked.</p>
               <p><span class="label label-default">Request</span></p>
               <p><code>POST</code> to <code>{api}/tweets/like/{id}</code> where:
                 <ul>
@@ -303,6 +304,7 @@
           <div class="panel panel-default">
             <div class="panel-heading">Retweet</div>
             <div class="panel-body">
+              <p>If this tweet is a retweet, the original one will be retweeted.</p>
               <p><span class="label label-default">Request</span></p>
               <p><code>POST</code> to <code>{api}/tweets/retweet/{id}</code> where:
                 <ul>
