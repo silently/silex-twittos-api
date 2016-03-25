@@ -145,11 +145,12 @@
                   <li>401 (requires authentication)</li>
                 </ul>
               </p>
+              <p>Note that retweets won't be listed here.</p>
             </div>
           </div>
 
           <div class="panel panel-default">
-            <div class="panel-heading">List tweets of a given user</div>
+            <div class="panel-heading">List tweets for a given user</div>
             <div class="panel-body">
               <p><span class="label label-default">Request</span></p>
               <p><code>GET</code> to <code>{api}/users/{id}/tweets</code> where:
@@ -176,6 +177,7 @@
                     </ul>
                   </li>
                   <li>401 (requires authentication)</li>
+                  <li>404 (user not found)</li>
                 </ul>
               </p>
             </div>

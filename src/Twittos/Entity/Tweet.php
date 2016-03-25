@@ -45,8 +45,8 @@ class Tweet {
     $this->createdAt = new \Datetime();
   }
 
-  public static function createRetweet(Tweet $original) {
-    $retweet = new Tweet($original->getAuthor(), $original->getText(), $original);
+  public static function createRetweet(User $user, Tweet $original) {
+    $retweet = new Tweet($user, $original->getText(), $original);
     return $retweet;
   }
 

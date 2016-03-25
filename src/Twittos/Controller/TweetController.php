@@ -10,7 +10,7 @@ use Twittos\Controller\Utils;
 class TweetController {
 
   public function index(Request $request, Application $app) {
-    $maxResults = 2;
+    $maxResults = 10;
     $page = $request->get('page') ? $request->get('page') : 0;
     $firstResult = $page * $maxResults;
     $query = $app['orm.em']
@@ -20,6 +20,38 @@ class TweetController {
       ->where('t.isRetweet = false')
       ->innerJoin('t.author',  'author')
       ->orderBy('t.createdAt', 'DESC')
+      ->setFirstResult($firstResult)
+      ->setMaxResults($maxResults)
+      ->getQuery();
+
+    // Format
+    $apiRoot = $app['settings']['api']['root'];
+    $tweets = array_map(function($t) use ($apiRoot) {
+      $t['URI'] = $apiRoot.'/tweets/'.$t['id'];
+      $t['authorURI'] = $apiRoot.'/users/'.$t['authorLogin'];
+      $t['createdAt'] = $t['createdAt']->format('Y-m-d H:i:s');
+      return $t;
+    }, $query->getArrayResult());
+
+    // Response
+    return $app->json($tweets, 200);
+  }
+
+  public function indexForUser(Request $request, Application $app) {
+    $author = $app['orm.em']->getRepository('Twittos\Entity\User')->findOneById($request->get('id'));
+    if(null === $author) return new Response(null, 404);
+
+    $maxResults = 10;
+    $page = $request->get('page') ? $request->get('page') : 0;
+    $firstResult = $page * $maxResults;
+    $query = $app['orm.em']
+      ->getRepository('Twittos\Entity\Tweet')
+      ->createQueryBuilder('t')
+      ->select('t.id, t.text, author.login AS authorLogin, t.likes, t.retweets, t.createdAt, t.isRetweet')
+      ->where('t.author = ?1')
+      ->innerJoin('t.author',  'author')
+      ->orderBy('t.createdAt', 'DESC')
+      ->setParameter(1, $author->getId())
       ->setFirstResult($firstResult)
       ->setMaxResults($maxResults)
       ->getQuery();
@@ -90,7 +122,7 @@ class TweetController {
     // Let's retweet it
     $tweet->retweeted();// increase retweet counter
     $user->getRetweets()->add($tweet);//add user to list of retweeters
-    $retweet = Tweet::createRetweet($tweet);
+    $retweet = Tweet::createRetweet($user, $tweet);
     // Persists
     $app['orm.em']->persist($tweet);
     $app['orm.em']->persist($user);

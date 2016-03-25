@@ -32,6 +32,7 @@ $authentifiedAPI->before(function (Request $request, Application $app) {
   $request->attributes->set('currentUser', $currentUser);
 });
 $authentifiedAPI->get('/api/tweets', 'Twittos\\Controller\\TweetController::index');
+$authentifiedAPI->get('/api/users/{id}/tweets', 'Twittos\\Controller\\TweetController::indexForUser');
 $authentifiedAPI->post('/api/tweets', 'Twittos\\Controller\\TweetController::create');
 $authentifiedAPI->get('/api/tweets/{id}', 'Twittos\\Controller\\TweetController::show');
 $authentifiedAPI->post('/api/tweets/like/{id}', 'Twittos\\Controller\\TweetController::like');
