@@ -19,8 +19,11 @@ class User {
   /** @Column(type="string", length=255) **/
   protected $email;
 
+  /** @OneToMany(targetEntity="Tweet", mappedBy="publisher") */
+  protected $allTweets;
+
   /** @OneToMany(targetEntity="Tweet", mappedBy="author") */
-  protected $tweets;
+  protected $originalTweets;
 
   /** @ManyToMany(targetEntity="Tweet") @JoinTable(name="users_likes") */
   protected $likes;
@@ -35,7 +38,8 @@ class User {
     $this->login = $login;
     $this->password = $password;
     $this->email = $email;
-    $this->tweets = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->$allTweets = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->$originalTweets = new \Doctrine\Common\Collections\ArrayCollection();
     $this->likes = new \Doctrine\Common\Collections\ArrayCollection();
     $this->retweets = new \Doctrine\Common\Collections\ArrayCollection();
     $this->createdAt = new \Datetime();

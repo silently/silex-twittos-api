@@ -8,6 +8,7 @@
     <style>
       h2 { margin: 1em 0; }
       p.separator { margin: 3px 0; }
+      .larger { font-size: 1.2em; }
     </style>
   </head>
   <body>
@@ -52,7 +53,7 @@
           </div>
 
           <div class="panel panel-default">
-            <div class="panel-heading">Get user profile</div>
+            <div class="panel-heading">Get logged user profile</div>
             <div class="panel-body">
               <p><span class="label label-default">Request</span></p>
               <p><code>GET</code> to <code>{api}/users/self</code></p>
@@ -119,7 +120,7 @@
           <div class="panel panel-default">
             <div class="panel-heading">List tweets</div>
             <div class="panel-body">
-              <p>This resource lists original tweets (and not duplicate retweets).</p>
+              <p>This resource lists original tweets (meaning no duplicate retweets).</p>
               <p><span class="label label-default">Request</span></p>
               <p><code>GET</code> to <code>{api}/tweets</code> where:
                 <ul>
@@ -136,8 +137,8 @@
                       <li><strong>id</strong></li>
                       <li><strong>URI</strong> (to get more information)</li>
                       <li><strong>text</strong></li>
-                      <li><strong>authorLogin</strong></li>
-                      <li><strong>authorURI</strong> (to get the author's tweets)</li>
+                      <li><strong>userLogin</strong></li>
+                      <li><strong>userURI</strong> (to get the user's tweets)</li>
                       <li><strong>likes</strong> (number)</li>
                       <li><strong>retweets</strong> (number)</li>
                       <li><strong>createdAt</strong></li>
@@ -150,8 +151,9 @@
           </div>
 
           <div class="panel panel-default">
-            <div class="panel-heading">List tweets for a given user</div>
+            <div class="panel-heading">List tweets from a given user</div>
             <div class="panel-body">
+              <p>This resource lists all tweets (original and retweeted ones) from a given user.</p>
               <p><span class="label label-default">Request</span></p>
               <p><code>GET</code> to <code>{api}/users/{id}/tweets</code> where:
                 <ul>
@@ -168,12 +170,31 @@
                     <ul>
                       <li><strong>id</strong></li>
                       <li><strong>URI</strong> (to get more information)</li>
+                      <li><strong>userLogin</strong></li>
+                      <li><strong>userURI</strong></li>
+                      <li><strong>createdAt</strong></li>
+                      <li><strong>isRetweet</strong> (boolean)</li>
+                    </ul>
+                    <ul>
+                      <p class="separator larger">And <em>if it is not a retweet</em>:</p>
                       <li><strong>text</strong></li>
-                      <li><strong>authorLogin</strong></li>
-                      <li><strong>authorURI</strong> (to get the author's tweets)</li>
                       <li><strong>likes</strong> (number)</li>
                       <li><strong>retweets</strong> (number)</li>
-                      <li><strong>createdAt</strong></li>
+                    </ul>
+                    <ul>
+                      <p class="separator larger">And <em>if it is a retweet</em>:</p>
+                      <li><strong>original</strong> tweet description:
+                        <ul>
+                          <li><strong>id</strong></li>
+                          <li><strong>URI</strong> (to get more information)</li>
+                          <li><strong>userLogin</strong></li>
+                          <li><strong>userURI</strong> (to get the user's tweets)</li>
+                          <li><strong>createdAt</strong></li>
+                          <li><strong>text</strong></li>
+                          <li><strong>likes</strong> (number)</li>
+                          <li><strong>retweets</strong> (number)</li>
+                        </ul>
+                      </li>
                     </ul>
                   </li>
                   <li>401 (requires authentication)</li>
@@ -201,26 +222,31 @@
                     <ul>
                       <li><strong>id</strong></li>
                       <li><strong>URI</strong> (current URI called by client)</li>
-                      <li><strong>text</strong></li>
-                      <li><strong>authorLogin</strong></li>
-                      <li><strong>authorURI</strong> (to get the author's tweets)</li>
+                      <li><strong>userLogin</strong></li>
+                      <li><strong>userURI</strong> (to get the user's tweets)</li>
                       <li><strong>createdAt</strong></li>
                       <li><strong>isRetweet</strong> (boolean)</li>
                     </ul>
                     <ul>
-                      <p class="separator">And additional fields only if <em>it's not a retweet</em>:</p>
+                      <p class="separator larger">And <em>if it is not a retweet</em>:</p>
+                      <li><strong>text</strong></li>
                       <li><strong>likes</strong> (number)</li>
                       <li><strong>retweets</strong> (number)</li>
                     </ul>
                     <ul>
-                      <p class="separator">And additional fields about the original tweet only if <em>it is a retweet</em>:</p>
-                      <li><strong>orignalId</strong> <em>only if a retweet</em></li>
-                      <li><strong>orignalURI</strong> <em>only if a retweet</em></li>
-                      <li><strong>orignalAuthorLogin</strong> <em>only if a retweet</em></li>
-                      <li><strong>orignalAuthorURI</strong> <em>only if a retweet</em></li>
-                      <li><strong>orignalCreatedAt</strong> <em>only if a retweet</em></li>
-                      <li><strong>orignalLikes</strong> <em>only if a retweet</em></li>
-                      <li><strong>orignalRetweets</strong> <em>only if a retweet</em></li>
+                      <p class="separator larger">And <em>if it is a retweet</em>:</p>
+                      <li><strong>original</strong> tweet description:
+                        <ul>
+                          <li><strong>id</strong></li>
+                          <li><strong>URI</strong> (to get more information)</li>
+                          <li><strong>userLogin</strong></li>
+                          <li><strong>userURI</strong> (to get the user's tweets)</li>
+                          <li><strong>createdAt</strong></li>
+                          <li><strong>text</strong></li>
+                          <li><strong>likes</strong> (number)</li>
+                          <li><strong>retweets</strong> (number)</li>
+                        </ul>
+                      </li>
                     </ul>
                   </li>
                   <li>401 (requires authentication)</li>
@@ -271,7 +297,7 @@
                 <ul>
                   <li>200 (tweet deleted)</li>
                   <li>401 (requires authentication)</li>
-                  <li>403 (forbidden, for example if authenticated user is not the tweet author)</li>
+                  <li>403 (forbidden, for example if authenticated user is not the tweet user)</li>
                 </ul>
               </p>
             </div>
@@ -323,7 +349,7 @@
                   </li>
                   <li>401 (requires authentication)</li>
                   <li>404 (tweet not found)</li>
-                  <li>409 (already retweeted or author of the tweet)</li>
+                  <li>409 (already retweeted or user of the tweet)</li>
                 </ul>
               </p>
             </div>

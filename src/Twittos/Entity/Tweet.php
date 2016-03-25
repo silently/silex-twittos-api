@@ -13,7 +13,10 @@ class Tweet {
   /** @Column(type="string", length=140) */
   protected $text;
 
-  /** @ManyToOne(targetEntity="User", inversedBy="tweets") @JoinColumn(name="author_id", referencedColumnName="id") */
+  /** @ManyToOne(targetEntity="User", inversedBy="allTweets") */
+  protected $publisher;
+
+  /** @ManyToOne(targetEntity="User", inversedBy="originalTweets") */
   protected $author;
 
   /** @Column(type="integer") */
@@ -31,22 +34,24 @@ class Tweet {
   /** @Column(type="datetime") */
   protected $createdAt;
 
-  public function __construct($author, $text, $original) {
-    $this->author = $author;
+  public function __construct($publisher, $text, $original) {
+    $this->publisher = $publisher;
     $this->text = $text;
     $this->likes = 0;
     $this->retweets = 0;
     if(null === $original) {
       $this->isRetweet = false;
+      $this->author = $publisher;
     } else {
       $this->isRetweet = true;
       $this->original = $original;
+      $this->author = $original->getAuthor();
     }
     $this->createdAt = new \Datetime();
   }
 
-  public static function createRetweet(User $user, Tweet $original) {
-    $retweet = new Tweet($user, $original->getText(), $original);
+  public static function createRetweet(User $publisher, Tweet $original) {
+    $retweet = new Tweet($publisher, $original->getText(), $original);
     return $retweet;
   }
 
@@ -74,29 +79,28 @@ class Tweet {
     return [ 'id' => $this->id ];
   }
 
-  public function getInfo($apiRoot, $deep = true) {
-    // $tweet['authorURI'] = $apiRoot.'/users/'.$tweet['authorLogin'];
-    // $tweet['createdAt'] = $tweet['createdAt']->format('Y-m-d H:i:s');
-
+  public function getInfo($apiRoot) {
     $info = [
       'id' => $this->id,
       'URI'=> $apiRoot.'/tweets/'.$this->id,
-      'text' => $this->text,
-      'authorLogin' => $this->author->getLogin(),
-      'authorURI' => $apiRoot.'/users/'.$this->author->getLogin(),
+      'userLogin' => $this->publisher->getLogin(),
+      'userURI' => $apiRoot.'/users/'.$this->publisher->getLogin(),
       'createdAt' => $this->createdAt->format('Y-m-d H:i:s'),
       'isRetweet' => $this->isRetweet
     ];
-    if($deep && $this->isRetweet) {
-      $originalInfo = $this->original->getInfo($apiRoot, false);
-      $info['originalId'] = $originalInfo['id'];
-      $info['originalURI'] = $originalInfo['URI'];
-      $info['originalAuthorLogin'] = $originalInfo['authorLogin'];
-      $info['originalAuthorURI'] = $originalInfo['authorURI'];
-      $info['originalCreatedAt'] = $originalInfo['createdAt'];
-      $info['originalLikes'] = $originalInfo['likes'];
-      $info['originalRetweets'] = $originalInfo['retweets'];
+    if($this->isRetweet) {
+      $info['original'] = [
+        'id' => $this->original->getId(),
+        'URI' => $apiRoot.'/tweets/'.$this->original->getId(),
+        'text' => $this->text,
+        'userLogin' => $this->original->getAuthor()->getLogin(),
+        'userURI' => $apiRoot.'/users/'.$this->original->getAuthor()->getLogin(),
+        'createdAt' => $this->original->createdAt->format('Y-m-d H:i:s'),
+        'likes' => $this->original->getLikes(),
+        'retweets' => $this->original->getRetweets()
+      ];
     } else {
+      $info['text'] = $this->text;
       $info['likes'] = $this->likes;
       $info['retweets']= $this->retweets;
     }
@@ -109,6 +113,18 @@ class Tweet {
 
   public function getOriginal() {
     return $this->original;
+  }
+
+  public function getLikes() {
+    return $this->likes;
+  }
+
+  public function getCreatedAt() {
+    return $this->createdAt;
+  }
+
+  public function getRetweets() {
+    return $this->retweets;
   }
 
   public function getText() {

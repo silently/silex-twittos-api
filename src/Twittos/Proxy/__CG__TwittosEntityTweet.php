@@ -64,10 +64,10 @@ class Tweet extends \Twittos\Entity\Tweet implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'text', 'author', 'likes', 'retweets', 'isRetweet', 'original', 'createdAt'];
+            return ['__isInitialized__', 'id', 'text', 'publisher', 'author', 'likes', 'retweets', 'isRetweet', 'original', 'createdAt'];
         }
 
-        return ['__isInitialized__', 'id', 'text', 'author', 'likes', 'retweets', 'isRetweet', 'original', 'createdAt'];
+        return ['__isInitialized__', 'id', 'text', 'publisher', 'author', 'likes', 'retweets', 'isRetweet', 'original', 'createdAt'];
     }
 
     /**
@@ -191,6 +191,17 @@ class Tweet extends \Twittos\Entity\Tweet implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function isRetweet()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isRetweet', []);
+
+        return parent::isRetweet();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getInfoOnCreate()
     {
 
@@ -202,12 +213,12 @@ class Tweet extends \Twittos\Entity\Tweet implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getInfo($apiRoot, $deep = true)
+    public function getInfo($apiRoot)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getInfo', [$apiRoot, $deep]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getInfo', [$apiRoot]);
 
-        return parent::getInfo($apiRoot, $deep);
+        return parent::getInfo($apiRoot);
     }
 
     /**
@@ -219,6 +230,50 @@ class Tweet extends \Twittos\Entity\Tweet implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAuthor', []);
 
         return parent::getAuthor();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getOriginal()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOriginal', []);
+
+        return parent::getOriginal();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLikes()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLikes', []);
+
+        return parent::getLikes();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCreatedAt()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCreatedAt', []);
+
+        return parent::getCreatedAt();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRetweets()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRetweets', []);
+
+        return parent::getRetweets();
     }
 
     /**

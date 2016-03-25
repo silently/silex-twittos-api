@@ -64,10 +64,10 @@ class User extends \Twittos\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'login', 'password', 'email', 'tweets', 'likes', 'retweets', 'createdAt'];
+            return ['__isInitialized__', 'id', 'login', 'password', 'email', 'allTweets', 'originalTweets', 'likes', 'retweets', 'createdAt'];
         }
 
-        return ['__isInitialized__', 'id', 'login', 'password', 'email', 'tweets', 'likes', 'retweets', 'createdAt'];
+        return ['__isInitialized__', 'id', 'login', 'password', 'email', 'allTweets', 'originalTweets', 'likes', 'retweets', 'createdAt'];
     }
 
     /**
