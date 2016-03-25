@@ -29,7 +29,7 @@ class Tweet
   protected $source;
 
   /** @Column(type="datetime") */
-  protected $created_at;
+  protected $createdAt;
 
   public function __construct($author, $text) {
     $this->author = $author;
@@ -37,7 +37,7 @@ class Tweet
     $this->likes = 0;
     $this->retweets = 0;
     $this->is_retweet = false;
-    $this->created_at = new \Datetime();
+    $this->createdAt = new \Datetime();
   }
 
   // Validations

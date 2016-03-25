@@ -5,3 +5,5 @@ db:
   user: user
   password: password
   charset: utf8
+api:
+  root: http://localhost:8080/api

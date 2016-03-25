@@ -1,9 +1,9 @@
 http --session=s1 POST :8080/api/users login=gg1 password=coucou email=gg1@aze.fr
 http --session=s1 POST :8080/api/sessions login=gg1 password=coucou
 http --session=s1 POST :8080/api/tweets text=Bonjour1
-sleep 1s
+sleep 0.1s
 http --session=s1 POST :8080/api/tweets text=Bonjour2
-sleep 1s
+sleep 0.1s
 http --session=s1 POST :8080/api/tweets text=Bonjour3
-sleep 1s
+sleep 0.1s
 http --session=s1 POST :8080/api/tweets text=Bonjour4

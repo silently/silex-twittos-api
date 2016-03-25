@@ -29,7 +29,7 @@ class User
   protected $retweets;
 
   /** @Column(type="datetime") **/
-  protected $created_at;
+  protected $createdAt;
 
   public function __construct($login, $password, $email) {
     $this->login = $login;
@@ -38,7 +38,7 @@ class User
     $this->tweets = new \Doctrine\Common\Collections\ArrayCollection();
     $this->likes = new \Doctrine\Common\Collections\ArrayCollection();
     $this->retweets = new \Doctrine\Common\Collections\ArrayCollection();
-    $this->created_at = new \Datetime();
+    $this->createdAt = new \Datetime();
   }
 
   /** @PrePersist */
