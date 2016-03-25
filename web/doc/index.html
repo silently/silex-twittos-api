@@ -112,7 +112,7 @@
                       <li><strong>URI</strong> (to get more information)</li>
                       <li><strong>text</strong></li>
                       <li><strong>authorLogin</strong></li>
-                      <li><strong>authorURI</strong></li>
+                      <li><strong>authorURI</strong> (to get the author's tweets)</li>
                       <li><strong>likes</strong> (number)</li>
                       <li><strong>retweets</strong> (number)</li>
                       <li><strong>createdAt</strong></li>
@@ -125,7 +125,7 @@
           </div>
 
           <div class="panel panel-default">
-            <div class="panel-heading">Get more info on a give tweet</div>
+            <div class="panel-heading">Get more info on a given tweet</div>
             <div class="panel-body">
               <p><code>GET</code> request to <code>{api}/tweets/{id}</code> where:
                 <ul>
@@ -135,7 +135,24 @@
 
               <p>Responses:
                 <ul>
-                  <li>200 (list most recent tweets by default)</li>
+                  <li>200 with the following fields:
+                    <ul>
+                      <li><strong>id</strong></li>
+                      <li><strong>URI</strong> (current URI called by client)</li>
+                      <li><strong>text</strong></li>
+                      <li><strong>authorLogin</strong></li>
+                      <li><strong>authorURI</strong> (to get the author's tweets)</li>
+                      <li><strong>createdAt</strong></li>
+                      <li><strong>isRetweet</strong> (boolean)</li>
+                      <li><strong>likes</strong> (number, 0 if isRetweet)</li>
+                      <li><strong>retweets</strong> (number, 0 if isRetweet)</li>
+                      <li><strong>orignalTweetId</strong> (present if isRetweet)</li>
+                      <li><strong>orignalTweetURI</strong> (present if isRetweet)</li>
+                      <li><strong>orignalTweetLikes</strong> (present if isRetweet)</li>
+                      <li><strong>orignalTweetRetweets</strong> (present if isRetweet)</li>
+                      <li><strong>orignalTweetAuthorLogin</strong> (present if isRetweet)</li>
+                    </ul>
+                  </li>
                   <li>401 (requires authentication)</li>
                 </ul>
               </p>

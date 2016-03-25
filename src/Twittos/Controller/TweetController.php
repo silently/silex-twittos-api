@@ -24,6 +24,7 @@ class TweetController {
       ->setMaxResults($maxResults)
       ->getQuery();
 
+    // Format
     $apiRoot = $app['settings']['api']['root'];
     $tweets = array_map(function($t) use ($apiRoot) {
       $t['URI'] = $apiRoot.'/tweets/'.$t['id'];
@@ -31,7 +32,30 @@ class TweetController {
       $t['createdAt'] = $t['createdAt']->format('Y-m-d H:i:s');
       return $t;
     }, $query->getArrayResult());
+
+    // Response
     return $app->json($tweets, 200);
+  }
+
+  public function show(Request $request, Application $app) {
+    $tweet = $app['orm.em']
+      ->getRepository('Twittos\Entity\Tweet')
+      ->createQueryBuilder('t')
+      ->select('t.id, t.text, author.login AS authorLogin, t.likes, t.retweets, t.createdAt')
+      ->where('t.id = :id')
+      ->innerJoin('t.author',  'author')
+      ->setParameter('id', $request->get('id'))
+      ->getQuery()
+      ->getSingleResult();
+
+    // Format
+    $apiRoot = $app['settings']['api']['root'];
+    $tweet['URI'] = $apiRoot.'/tweets/'.$tweet['id'];
+    $tweet['authorURI'] = $apiRoot.'/users/'.$tweet['authorLogin'];
+    $tweet['createdAt'] = $tweet['createdAt']->format('Y-m-d H:i:s');
+
+    // Response
+    return $app->json($tweet, 200);
   }
 
   public function create(Request $request, Application $app) {

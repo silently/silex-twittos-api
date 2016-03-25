@@ -26,7 +26,7 @@ class Tweet
   protected $isRetweet;
 
   /** @OneToOne(targetEntity="Tweet") */
-  protected $source;
+  protected $original;
 
   /** @Column(type="datetime") */
   protected $createdAt;
