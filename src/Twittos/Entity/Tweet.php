@@ -34,7 +34,7 @@ class Tweet {
   /** @Column(type="datetime") */
   protected $createdAt;
 
-  public function __construct($publisher, $text, $original) {
+  public function __construct($publisher, $text, $original = null) {
     $this->publisher = $publisher;
     $this->text = $text;
     $this->likes = 0;

@@ -4,19 +4,19 @@ namespace Twittos\Entity;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/** @Entity @Table(name="users") @HasLifecycleCallbacks **/
+/** @Entity @Table(name="users") @HasLifecycleCallbacks */
 class User {
 
-  /** @Id @Column(type="guid") @GeneratedValue(strategy="UUID") **/
+  /** @Id @Column(type="guid") @GeneratedValue(strategy="UUID") */
   protected $id;
 
-  /** @Column(type="string", length=255, unique=true) **/
+  /** @Column(type="string", length=255, unique=true) */
   protected $login;
 
-  /** @Column(type="string", length=255) **/
+  /** @Column(type="string", length=255) */
   protected $password;
 
-  /** @Column(type="string", length=255) **/
+  /** @Column(type="string", length=255) */
   protected $email;
 
   /** @OneToMany(targetEntity="Tweet", mappedBy="publisher") */
@@ -38,8 +38,8 @@ class User {
     $this->login = $login;
     $this->password = $password;
     $this->email = $email;
-    $this->$allTweets = new \Doctrine\Common\Collections\ArrayCollection();
-    $this->$originalTweets = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->allTweets = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->originalTweets = new \Doctrine\Common\Collections\ArrayCollection();
     $this->likes = new \Doctrine\Common\Collections\ArrayCollection();
     $this->retweets = new \Doctrine\Common\Collections\ArrayCollection();
     $this->createdAt = new \Datetime();
