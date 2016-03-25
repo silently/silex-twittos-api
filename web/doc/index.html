@@ -170,7 +170,11 @@
 
               <p>Responses:
                 <ul>
-                  <li>201 (tweet created)</li>
+                  <li>201 (tweet created) with the tweet JSON description containing:
+                    <ul>
+                      <li><strong>id</strong></li>
+                    </ul>
+                  </li>
                   <li>401 (requires authentication)</li>
                   <li>422 (bad parameters)</li>
                 </ul>
@@ -228,7 +232,11 @@
 
               <p>Responses:
                 <ul>
-                  <li>201 (retweet created)</li>
+                  <li>201 (retweet created) with the retweet JSON description containing:
+                    <ul>
+                      <li><strong>id</strong></li>
+                    </ul>
+                  </li>
                   <li>401 (requires authentication)</li>
                   <li>404 (tweet not found)</li>
                   <li>409 (already retweeted or author of the tweet)</li>

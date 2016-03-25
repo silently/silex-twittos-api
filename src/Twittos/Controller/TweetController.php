@@ -70,7 +70,7 @@ class TweetController {
     // Persists
     $app['orm.em']->persist($tweet);
     $app['orm.em']->flush();
-    return new Response(null, 201);
+    return $app->json($tweet->getInfo(), 201);
   }
 
   public function like(Request $request, Application $app) {
@@ -110,7 +110,7 @@ class TweetController {
     $app['orm.em']->persist($user);
     $app['orm.em']->persist($retweet);
     $app['orm.em']->flush();
-    return new Response(null, 201);
+    return $app->json($retweet->getInfo(), 201);
   }
 
   public function destroy(Request $request, Application $app) {

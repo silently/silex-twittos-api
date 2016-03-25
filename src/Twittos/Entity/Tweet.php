@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /** @Entity @Table(name="tweets") */
 class Tweet {
-  
+
   /** @Id @Column(type="guid") @GeneratedValue(strategy="UUID") */
   protected $id;
 
@@ -64,6 +64,10 @@ class Tweet {
 
   public function getId() {
     return $this->id;
+  }
+
+  public function getInfo() {
+    return [ 'id' => $this->id ];
   }
 
   public function getAuthor() {
