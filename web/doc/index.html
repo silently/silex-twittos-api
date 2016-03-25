@@ -26,7 +26,8 @@
           <div class="panel panel-default">
             <div class="panel-heading">Register</div>
             <div class="panel-body">
-              <p><code>POST</code> request to <code>{api}/users</code> with a JSON description containing:
+              <p><span class="label label-default">Request</span></p>
+              <p><code>POST</code> to <code>{api}/users</code> with a JSON description containing:
                 <ul>
                   <li><strong>login</strong> (mandatory)</li>
                   <li><strong>password</strong> (mandatory with at least 6 characters)</li>
@@ -34,7 +35,9 @@
                 </ul>
               </p>
 
-              <p>Responses:
+              <hr/>
+
+              <p><span class="label label-primary">Response</span>
                 <ul>
                   <li>201 (register ok, side-effect: creates a session and sets a cookie) with the user JSON description containing:
                     <ul>
@@ -51,9 +54,12 @@
           <div class="panel panel-default">
             <div class="panel-heading">Get user profile</div>
             <div class="panel-body">
-              <p><code>GET</code> request to <code>{api}/users/self</code></p>
+              <p><span class="label label-default">Request</span></p>
+              <p><code>GET</code> to <code>{api}/users/self</code></p>
 
-              <p>Responses:
+              <hr/>
+
+              <p><span class="label label-primary">Response</span>
                 <ul>
                   <li>200 with the following fields:
                     <ul>
@@ -72,14 +78,17 @@
           <div class="panel panel-default">
             <div class="panel-heading">Login request</div>
             <div class="panel-body">
-              <p><code>POST</code> request to <code>{api}/sessions</code> with a JSON description containing:
+              <p><span class="label label-default">Request</span></p>
+              <p><code>POST</code> to <code>{api}/sessions</code> with a JSON description containing:
                 <ul>
                   <li><strong>login</strong> (mandatory)</li>
                   <li><strong>password</strong> (mandatory)</li>
                 </ul>
               </p>
 
-              <p>Responses:
+              <hr/>
+
+              <p><span class="label label-primary">Response</span>
                 <ul>
                   <li>201 (login ok, sets a cookie)</li>
                   <li>401 (failed: bad login/password, login does not exists...)</li>
@@ -92,9 +101,12 @@
           <div class="panel panel-default">
             <div class="panel-heading">Logout request</div>
             <div class="panel-body">
-              <p><code>DELETE</code> request to <code>{api}/sessions/self</code></p>
+              <p><span class="label label-default">Request</span></p>
+              <p><code>DELETE</code> to <code>{api}/sessions/self</code></p>
 
-              <p>Responses:
+              <hr/>
+
+              <p><span class="label label-primary">Response</span>
                 <ul>
                   <li>200 (unsets cookie if any)</li>
                 </ul>
@@ -107,9 +119,49 @@
           <div class="panel panel-default">
             <div class="panel-heading">List tweets</div>
             <div class="panel-body">
-              <p><code>GET</code> request to <code>{api}/tweets</code>, with an optional <code>page</code> query parameter (for example <code>{api}/tweets?page=3</code>) if you want to skip results.</p>
+              <p><span class="label label-default">Request</span></p>
+              <p><code>GET</code> to <code>{api}/tweets</code> where:
+                <ul>
+                  <li>there is an optional <code>page</code> query parameter (for example <code>{api}/tweets?page=3</code>) if you want to skip results</li>
+                </ul>
+              </p>
 
-              <p>Responses:
+              <hr/>
+
+              <p><span class="label label-primary">Response</span>
+                <ul>
+                  <li>200, array of 10 most recent (if <code>page</code> is 0 or not defined) tweets with the following fields for each tweet:
+                    <ul>
+                      <li><strong>id</strong></li>
+                      <li><strong>URI</strong> (to get more information)</li>
+                      <li><strong>text</strong></li>
+                      <li><strong>authorLogin</strong></li>
+                      <li><strong>authorURI</strong> (to get the author's tweets)</li>
+                      <li><strong>likes</strong> (number)</li>
+                      <li><strong>retweets</strong> (number)</li>
+                      <li><strong>createdAt</strong></li>
+                    </ul>
+                  </li>
+                  <li>401 (requires authentication)</li>
+                </ul>
+              </p>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">List tweets of a given user</div>
+            <div class="panel-body">
+              <p><span class="label label-default">Request</span></p>
+              <p><code>GET</code> to <code>{api}/users/{id}/tweets</code> where:
+                <ul>
+                  <li><strong>{id}</strong> is the user id</li>
+                  <li>there is an optional <code>page</code> query parameter (for example <code>{api}/users/{id}/tweets?page=3</code>) if you want to skip results</li>
+                </ul>
+              </p>
+
+              <hr/>
+
+              <p><span class="label label-primary">Response</span>
                 <ul>
                   <li>200, array of 10 most recent (if <code>page</code> is 0 or not defined) tweets with the following fields for each tweet:
                     <ul>
@@ -132,13 +184,16 @@
           <div class="panel panel-default">
             <div class="panel-heading">Get more info on a given tweet</div>
             <div class="panel-body">
-              <p><code>GET</code> request to <code>{api}/tweets/{id}</code> where:
+              <p><span class="label label-default">Request</span></p>
+              <p><code>GET</code> to <code>{api}/tweets/{id}</code> where:
                 <ul>
                   <li><strong>{id}</strong> is the tweet's id</li>
                 </ul>
               </p>
 
-              <p>Responses:
+              <hr/>
+
+              <p><span class="label label-primary">Response</span>
                 <ul>
                   <li>200 with the following fields:
                     <ul>
@@ -175,13 +230,16 @@
           <div class="panel panel-default">
             <div class="panel-heading">Create tweet</div>
             <div class="panel-body">
-              <p><code>POST</code> request to <code>{api}/tweets</code> with a JSON description containing:
+              <p><span class="label label-default">Request</span></p>
+              <p><code>POST</code> to <code>{api}/tweets</code> with a JSON description containing:
                 <ul>
                   <li><strong>text</strong> (mandatory with a maximum of 140 characters)</li>
                 </ul>
               </p>
 
-              <p>Responses:
+              <hr/>
+
+              <p><span class="label label-primary">Response</span>
                 <ul>
                   <li>201 (tweet created) with the tweet JSON description containing:
                     <ul>
@@ -198,13 +256,16 @@
           <div class="panel panel-default">
             <div class="panel-heading">Delete tweet</div>
             <div class="panel-body">
-              <p><code>DELETE</code> request to <code>{api}/tweets/{id}</code> where:
+              <p><span class="label label-default">Request</span></p>
+              <p><code>DELETE</code> to <code>{api}/tweets/{id}</code> where:
                 <ul>
                   <li><strong>{id}</strong> is the tweet's id</li>
                 </ul>
               </p>
 
-              <p>Responses:
+              <hr/>
+
+              <p><span class="label label-primary">Response</span>
                 <ul>
                   <li>200 (tweet deleted)</li>
                   <li>401 (requires authentication)</li>
@@ -217,13 +278,16 @@
           <div class="panel panel-default">
             <div class="panel-heading">Like tweet</div>
             <div class="panel-body">
-              <p><code>POST</code> request to <code>{api}/tweets/like/{id}</code> where:
+              <p><span class="label label-default">Request</span></p>
+              <p><code>POST</code> to <code>{api}/tweets/like/{id}</code> where:
                 <ul>
                   <li><strong>{id}</strong> is the tweet's id</li>
                 </ul>
               </p>
 
-              <p>Responses:
+              <hr/>
+
+              <p><span class="label label-primary">Response</span>
                 <ul>
                   <li>201 (tweet like created)</li>
                   <li>401 (requires authentication)</li>
@@ -237,13 +301,16 @@
           <div class="panel panel-default">
             <div class="panel-heading">Retweet</div>
             <div class="panel-body">
-              <p><code>POST</code> request to <code>{api}/tweets/retweet/{id}</code> where:
+              <p><span class="label label-default">Request</span></p>
+              <p><code>POST</code> to <code>{api}/tweets/retweet/{id}</code> where:
                 <ul>
                   <li><strong>{id}</strong> is the tweet's id</li>
                 </ul>
               </p>
 
-              <p>Responses:
+              <hr/>
+
+              <p><span class="label label-primary">Response</span>
                 <ul>
                   <li>201 (retweet created) with the retweet JSON description containing:
                     <ul>
