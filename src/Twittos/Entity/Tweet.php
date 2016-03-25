@@ -89,6 +89,7 @@ class Tweet {
       $info['originalURI'] = $originalInfo['URI'];
       $info['originalAuthorLogin'] = $originalInfo['authorLogin'];
       $info['originalAuthorURI'] = $originalInfo['authorURI'];
+      $info['originalCreatedAt'] = $originalInfo['createdAt'];
       $info['originalLikes'] = $originalInfo['likes'];
       $info['originalRetweets'] = $originalInfo['retweets'];
     } else {
