@@ -38,24 +38,10 @@ class TweetController {
   }
 
   public function show(Request $request, Application $app) {
-    $tweet = $app['orm.em']
-      ->getRepository('Twittos\Entity\Tweet')
-      ->createQueryBuilder('t')
-      ->select('t.id, t.text, author.login AS authorLogin, t.likes, t.retweets, t.createdAt')
-      ->where('t.id = :id')
-      ->innerJoin('t.author',  'author')
-      ->setParameter('id', $request->get('id'))
-      ->getQuery()
-      ->getSingleResult();
-
-    // Format
-    $apiRoot = $app['settings']['api']['root'];
-    $tweet['URI'] = $apiRoot.'/tweets/'.$tweet['id'];
-    $tweet['authorURI'] = $apiRoot.'/users/'.$tweet['authorLogin'];
-    $tweet['createdAt'] = $tweet['createdAt']->format('Y-m-d H:i:s');
+    $tweet = $app['orm.em']->getRepository('Twittos\Entity\Tweet')->findOneById($request->get('id'));
 
     // Response
-    return $app->json($tweet, 200);
+    return $app->json($tweet->getInfo($app['settings']['api']['root']), 200);
   }
 
   public function create(Request $request, Application $app) {
@@ -70,7 +56,7 @@ class TweetController {
     // Persists
     $app['orm.em']->persist($tweet);
     $app['orm.em']->flush();
-    return $app->json($tweet->getInfo(), 201);
+    return $app->json($tweet->getInfoOnCreate(), 201);
   }
 
   public function like(Request $request, Application $app) {
@@ -110,7 +96,7 @@ class TweetController {
     $app['orm.em']->persist($user);
     $app['orm.em']->persist($retweet);
     $app['orm.em']->flush();
-    return $app->json($retweet->getInfo(), 201);
+    return $app->json($retweet->getInfoOnCreate(), 201);
   }
 
   public function destroy(Request $request, Application $app) {

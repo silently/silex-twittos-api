@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <style>
       h2 { margin: 1em 0; }
+      p.separator { margin: 3px 0; }
     </style>
   </head>
   <body>
@@ -148,13 +149,20 @@
                       <li><strong>authorURI</strong> (to get the author's tweets)</li>
                       <li><strong>createdAt</strong></li>
                       <li><strong>isRetweet</strong> (boolean)</li>
-                      <li><strong>likes</strong> (number, 0 if isRetweet)</li>
-                      <li><strong>retweets</strong> (number, 0 if isRetweet)</li>
-                      <li><strong>orignalTweetId</strong> (present if isRetweet)</li>
-                      <li><strong>orignalTweetURI</strong> (present if isRetweet)</li>
-                      <li><strong>orignalTweetLikes</strong> (present if isRetweet)</li>
-                      <li><strong>orignalTweetRetweets</strong> (present if isRetweet)</li>
-                      <li><strong>orignalTweetAuthorLogin</strong> (present if isRetweet)</li>
+                    </ul>
+                    <ul>
+                      <p class="separator">And additional fields only if <em>it's not a retweet</em>:</p>
+                      <li><strong>likes</strong> (number)</li>
+                      <li><strong>retweets</strong> (number)</li>
+                    </ul>
+                    <ul>
+                      <p class="separator">And additional fields about the original tweet only if <em>it is a retweet</em>:</p>
+                      <li><strong>orignalId</strong> <em>only if a retweet</em></li>
+                      <li><strong>orignalURI</strong> <em>only if a retweet</em></li>
+                      <li><strong>orignalAuthorLogin</strong> <em>only if a retweet</em></li>
+                      <li><strong>orignalAuthorId</strong> <em>only if a retweet</em></li>
+                      <li><strong>orignalLikes</strong> <em>only if a retweet</em></li>
+                      <li><strong>orignalRetweets</strong> <em>only if a retweet</em></li>
                     </ul>
                   </li>
                   <li>401 (requires authentication)</li>

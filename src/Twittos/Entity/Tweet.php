@@ -66,8 +66,36 @@ class Tweet {
     return $this->id;
   }
 
-  public function getInfo() {
+  public function getInfoOnCreate() {
     return [ 'id' => $this->id ];
+  }
+
+  public function getInfo($apiRoot, $deep = true) {
+    // $tweet['authorURI'] = $apiRoot.'/users/'.$tweet['authorLogin'];
+    // $tweet['createdAt'] = $tweet['createdAt']->format('Y-m-d H:i:s');
+
+    $info = [
+      'id' => $this->id,
+      'URI'=> $apiRoot.'/tweets/'.$this->id,
+      'text' => $this->text,
+      'authorLogin' => $this->author->getLogin(),
+      'authorURI' => $apiRoot.'/users/'.$this->author->getLogin(),
+      'createdAt' => $this->createdAt->format('Y-m-d H:i:s'),
+      'isRetweet' => $this->isRetweet
+    ];
+    if($deep && $this->isRetweet) {
+      $originalInfo = $this->original->getInfo($apiRoot, false);
+      $info['originalId'] = $originalInfo['id'];
+      $info['originalURI'] = $originalInfo['URI'];
+      $info['originalAuthorLogin'] = $originalInfo['authorLogin'];
+      $info['originalAuthorURI'] = $originalInfo['authorURI'];
+      $info['originalLikes'] = $originalInfo['likes'];
+      $info['originalRetweets'] = $originalInfo['retweets'];
+    } else {
+      $info['likes'] = $this->likes;
+      $info['retweets']= $this->retweets;
+    }
+    return $info;
   }
 
   public function getAuthor() {
