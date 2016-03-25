@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /** @Entity @Table(name="users") @HasLifecycleCallbacks **/
 class User {
-  
+
   /** @Id @Column(type="guid") @GeneratedValue(strategy="UUID") **/
   protected $id;
 
@@ -65,8 +65,12 @@ class User {
     return $this->id;
   }
 
+  public function getInfoOnCreate() {
+    return [ 'id' => $this->id ];
+  }
+
   public function getInfo() {
-    return [ 'login' => $this->login, 'email' => $this->email ];
+    return [ 'id' => $this->id, 'login' => $this->login, 'email' => $this->email ];
   }
 
   public function getLikes() {

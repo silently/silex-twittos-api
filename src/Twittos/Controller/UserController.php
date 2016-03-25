@@ -31,7 +31,7 @@ class UserController {
       // Creates session
       $app['session']->set('userId', $user->getId());
       // Success
-      return new Response(null, 201);
+      return $app->json($user->getInfoOnCreate(), 201);
     }
     catch (UniqueConstraintViolationException $e){
       return new Response(null, 409);

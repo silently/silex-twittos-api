@@ -35,7 +35,11 @@
 
               <p>Responses:
                 <ul>
-                  <li>201 (register ok, side-effect: creates a session and sets a cookie)</li>
+                  <li>201 (register ok, side-effect: creates a session and sets a cookie) with the user JSON description containing:
+                    <ul>
+                      <li><strong>id</strong></li>
+                    </ul>
+                  </li>
                   <li>409 (if login is already used)</li>
                   <li>422 (with JSON data explaining error)</li>
                 </ul>
