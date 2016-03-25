@@ -102,11 +102,11 @@
           <div class="panel panel-default">
             <div class="panel-heading">List tweets</div>
             <div class="panel-body">
-              <p><code>GET</code> request to <code>{api}/tweets</code></p>
+              <p><code>GET</code> request to <code>{api}/tweets</code>, with an optional <code>page</code> query parameter (for example <code>{api}/tweets?page=3</code>) if you want to skip results.</p>
 
               <p>Responses:
                 <ul>
-                  <li>200, array of the most recent tweets with the following fields for each tweet:
+                  <li>200, array of 10 most recent (if <code>page</code> is 0 or not defined) tweets with the following fields for each tweet:
                     <ul>
                       <li><strong>id</strong></li>
                       <li><strong>URI</strong> (to get more information)</li>

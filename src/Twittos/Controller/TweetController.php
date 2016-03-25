@@ -10,6 +10,9 @@ use Twittos\Controller\Utils;
 class TweetController {
 
   public function index(Request $request, Application $app) {
+    $maxResults = 2;
+    $page = $request->get('page') ? $request->get('page') : 0;
+    $firstResult = $page * $maxResults;
     $query = $app['orm.em']
       ->getRepository('Twittos\Entity\Tweet')
       ->createQueryBuilder('t')
@@ -17,7 +20,8 @@ class TweetController {
       ->where('t.isRetweet = false')
       ->innerJoin('t.author',  'author')
       ->orderBy('t.createdAt', 'DESC')
-      ->setMaxResults(20)
+      ->setFirstResult($firstResult)
+      ->setMaxResults($maxResults)
       ->getQuery();
 
     $apiRoot = $app['settings']['api']['root'];
