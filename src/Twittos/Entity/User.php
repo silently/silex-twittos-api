@@ -5,8 +5,8 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /** @Entity @Table(name="users") @HasLifecycleCallbacks **/
-class User
-{
+class User {
+  
   /** @Id @Column(type="guid") @GeneratedValue(strategy="UUID") **/
   protected $id;
 
@@ -74,7 +74,7 @@ class User
   }
 
   public function getRetweets() {
-    return $this->likes;
+    return $this->retweets;
   }
 
   public function authenticate($tentativePassword) {

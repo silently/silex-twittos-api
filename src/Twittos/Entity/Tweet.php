@@ -5,8 +5,8 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /** @Entity @Table(name="tweets") */
-class Tweet
-{
+class Tweet {
+  
   /** @Id @Column(type="guid") @GeneratedValue(strategy="UUID") */
   protected $id;
 
@@ -31,13 +31,23 @@ class Tweet
   /** @Column(type="datetime") */
   protected $createdAt;
 
-  public function __construct($author, $text) {
+  public function __construct($author, $text, $original) {
     $this->author = $author;
     $this->text = $text;
     $this->likes = 0;
     $this->retweets = 0;
-    $this->isRetweet = false;
+    if(null === $original) {
+      $this->isRetweet = false;
+    } else {
+      $this->isRetweet = true;
+      $this->original = $original;
+    }
     $this->createdAt = new \Datetime();
+  }
+
+  public static function createRetweet(Tweet $original) {
+    $retweet = new Tweet($original->getAuthor(), $original->getText(), $original);
+    return $retweet;
   }
 
   // Validations
@@ -54,6 +64,14 @@ class Tweet
 
   public function getId() {
     return $this->id;
+  }
+
+  public function getAuthor() {
+    return $this->author;
+  }
+
+  public function getText() {
+    return $this->text;
   }
 
   public function liked() {

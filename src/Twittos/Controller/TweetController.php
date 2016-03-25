@@ -97,14 +97,18 @@ class TweetController {
     if(null === $tweet) return new Response(404);
 
     $user = $request->get('currentUser');
+    // Checks user is not the author
+    if($user->getId() === $tweet->getAuthor()->getId()) { return new Response(null, 409); }
     // Checks user has not already liked the tweet
     if($user->getRetweets()->contains($tweet)) { return new Response(null, 409); }
-    // Let's like it
-    $tweet->retweeted();
-    $user->getRetweets()->add($tweet);
-    // persists
+    // Let's retweet it
+    $tweet->retweeted();// increase retweet counter
+    $user->getRetweets()->add($tweet);//add user to list of retweeters
+    $retweet = Tweet::createRetweet($tweet);
+    // Persists
     $app['orm.em']->persist($tweet);
     $app['orm.em']->persist($user);
+    $app['orm.em']->persist($retweet);
     $app['orm.em']->flush();
     return new Response(null, 201);
   }

@@ -64,10 +64,10 @@ class User extends \Twittos\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'login', 'password', 'email', 'tweets', 'likes', 'created_at'];
+            return ['__isInitialized__', 'id', 'login', 'password', 'email', 'tweets', 'likes', 'retweets', 'createdAt'];
         }
 
-        return ['__isInitialized__', 'id', 'login', 'password', 'email', 'tweets', 'likes', 'created_at'];
+        return ['__isInitialized__', 'id', 'login', 'password', 'email', 'tweets', 'likes', 'retweets', 'createdAt'];
     }
 
     /**
@@ -190,7 +190,7 @@ class User extends \Twittos\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function getId()
     {
         if ($this->__isInitialized__ === false) {
-            return (int)  parent::getId();
+            return  parent::getId();
         }
 
 
@@ -219,6 +219,17 @@ class User extends \Twittos\Entity\User implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLikes', []);
 
         return parent::getLikes();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRetweets()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRetweets', []);
+
+        return parent::getRetweets();
     }
 
     /**
