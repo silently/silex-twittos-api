@@ -42,5 +42,10 @@ $authentifiedAPI->get('/api/users/self', 'Twittos\\Controller\\UserController::i
 $authentifiedAPI->delete('/api/sessions', 'Twittos\\Controller\\SessionController::destroy');
 $app->mount('/', $authentifiedAPI);
 
+// headers
+$app->after(function (Request $request, Response $response) {
+    $response->headers->set('Access-Control-Allow-Origin', '*');
+});
+
 // Runs app
 $app->run();
