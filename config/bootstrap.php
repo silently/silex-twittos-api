@@ -25,6 +25,6 @@ $app->register(new Silex\Provider\ValidatorServiceProvider());
 $app->register(new Silex\Provider\SessionServiceProvider(), array(
   'session.storage.options' => array(
     'cookie_secure' => false,//needs https
-    'cookie_httponly' => true
+    'cookie_httponly' => false//client-side JS needs to access it
   )
 ));

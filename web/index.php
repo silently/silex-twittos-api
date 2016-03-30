@@ -42,9 +42,18 @@ $authentifiedAPI->get('/api/users/self', 'Twittos\\Controller\\UserController::i
 $authentifiedAPI->delete('/api/sessions', 'Twittos\\Controller\\SessionController::destroy');
 $app->mount('/', $authentifiedAPI);
 
-// headers
+// Preflight OPTIONS for CORS
+$app->options('/api/{path}', function() {
+  return new Response(null, 200, array(
+    'Access-Control-Allow-Headers' => 'Content-Type'
+  ));
+});
+
+// Access-Control settings for any request
 $app->after(function (Request $request, Response $response) {
-    $response->headers->set('Access-Control-Allow-Origin', '*');
+  // Allow-Credentials imply Allow-Origin is a whitelist rather than a * wildcard
+  $response->headers->set('Access-Control-Allow-Credentials', 'true');
+  $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
 });
 
 // Runs app
