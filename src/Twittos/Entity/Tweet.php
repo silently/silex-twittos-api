@@ -84,7 +84,7 @@ class Tweet {
       'id' => $this->id,
       'URI'=> $apiRoot.'/tweets/'.$this->id,
       'userLogin' => $this->publisher->getLogin(),
-      'userURI' => $apiRoot.'/users/'.$this->publisher->getLogin(),
+      'userTweetsURI' => $apiRoot.'/users/'.$this->publisher->getId().'/tweets',
       'createdAt' => $this->createdAt->format('Y-m-d H:i:s'),
       'isRetweet' => $this->isRetweet
     ];
@@ -94,7 +94,7 @@ class Tweet {
         'URI' => $apiRoot.'/tweets/'.$this->original->getId(),
         'text' => $this->text,
         'userLogin' => $this->original->getAuthor()->getLogin(),
-        'userURI' => $apiRoot.'/users/'.$this->original->getAuthor()->getLogin(),
+        'userTweetsURI' => $apiRoot.'/users/'.$this->original->getAuthor()->getId().'/tweets',
         'createdAt' => $this->original->createdAt->format('Y-m-d H:i:s'),
         'likes' => $this->original->getLikes(),
         'retweets' => $this->original->getRetweets()

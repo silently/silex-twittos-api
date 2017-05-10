@@ -16,7 +16,7 @@ class TweetController {
     $query = $app['orm.em']
       ->getRepository('Twittos\Entity\Tweet')
       ->createQueryBuilder('t')
-      ->select('t.id, t.text, author.login AS userLogin, t.likes, t.retweets, t.createdAt')
+      ->select('t.id, t.text, author.id AS userId, t.likes, t.retweets, t.createdAt')
       ->where('t.isRetweet = false')
       ->innerJoin('t.author',  'author')
       ->orderBy('t.createdAt', 'DESC')
@@ -28,7 +28,7 @@ class TweetController {
     $apiRoot = $app['settings']['api']['root'];
     $tweets = array_map(function($t) use ($apiRoot) {
       $t['URI'] = $apiRoot.'/tweets/'.$t['id'];
-      $t['userURI'] = $apiRoot.'/users/'.$t['userLogin'];
+      $t['userTweetsURI'] = $apiRoot.'/users/'.$t['userId'].'/tweets';
       $t['createdAt'] = $t['createdAt']->format('Y-m-d H:i:s');
       return $t;
     }, $query->getArrayResult());
@@ -47,7 +47,7 @@ class TweetController {
     $query = $app['orm.em']
       ->getRepository('Twittos\Entity\Tweet')
       ->createQueryBuilder('t')
-      ->select('t.id, t.text, t.likes, t.retweets, t.createdAt, t.isRetweet, publisher.login AS userLogin, author.login AS authorLogin, original.id AS originalId, original.text AS originalText, original.likes AS originalLikes, original.retweets AS originalRetweets, original.createdAt AS originalCreatedAt')
+      ->select('t.id, t.text, t.likes, t.retweets, t.createdAt, t.isRetweet, publisher.id AS publisherId, author.login AS authorLogin, author.id AS authorId, original.id AS originalId, original.text AS originalText, original.likes AS originalLikes, original.retweets AS originalRetweets, original.createdAt AS originalCreatedAt')
       ->where('t.publisher = ?1')
       ->leftJoin('t.author', 'author')
       ->leftJoin('t.publisher', 'publisher')
@@ -62,7 +62,7 @@ class TweetController {
     $apiRoot = $app['settings']['api']['root'];
     $tweets = array_map(function($t) use ($apiRoot) {
       $t['URI'] = $apiRoot.'/tweets/'.$t['id'];
-      $t['userURI'] = $apiRoot.'/users/'.$t['userLogin'];
+      $t['userURI'] = $apiRoot.'/users/'.$t['publisherId'].'/tweets';
       $t['createdAt'] = $t['createdAt']->format('Y-m-d H:i:s');
       if($t['isRetweet']) {
         unset($t['text']);
@@ -73,12 +73,13 @@ class TweetController {
           'URI' => $apiRoot.'/tweets/'.$t['originalId'],
           'text' => $t['originalText'],
           'userLogin' => $t['authorLogin'],
-          'userURI' => $apiRoot.'/users/'.$t['authorLogin'],
+          'userURI' => $apiRoot.'/users/'.$t['authorId'].'/tweets',
           'createdAt' => $t['originalCreatedAt']->format('Y-m-d H:i:s'),
           'likes' => $t['originalLikes'],
           'retweets' => $t['originalRetweets']
         ];
       }
+      unset($t['authorId']);
       unset($t['authorLogin']);
       unset($t['originalId']);
       unset($t['originalText']);
